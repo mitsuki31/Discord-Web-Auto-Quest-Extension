@@ -24,7 +24,7 @@ export function createQuestButton(): void {
   icon.alt = "Quest Icon";
 
   const textLabel = createElement("span", STYLES.text);
-  textLabel.textContent = "Running Quests";
+  textLabel.textContent = "Run Quests";
 
   const expandButton = createElement("button", STYLES.expandButton);
   expandButton.type = "button";
@@ -90,35 +90,58 @@ export async function handleButtonClick(
   }
 
   try {
-    const response = await chrome.runtime.sendMessage<{
+    chrome.runtime.sendMessage<{
       action: "executeQuestCode";
     }>({
       action: "executeQuestCode",
-    });
+    }, function (response: any) {
+      console.info("[Discord Auto Quest] Response:", response);
 
-    if (response?.success) {
+      if (chrome.runtime.lastError) {
+        console.error(
+          "[Discord Auto Quest] Runtime error:",
+          chrome.runtime.lastError,
+        );
+
+        updateButtonState(elements, {
+          message: "Error",
+          backgroundColor: "red",
+          textColor: "white",
+          invertIcons: true,
+        });
+
+        return;
+      }
+
+      if (response?.success) {
+        updateButtonState(elements, {
+          message: "Code Executed",
+          backgroundColor: "black",
+          textColor: "white",
+          invertIcons: true,
+        });
+  
+        return;
+      }
+  
+      console.error(
+        "[Discord Auto Quest] Quest code injection failed:",
+        response?.error ?? "Unknown error",
+      );
+  
       updateButtonState(elements, {
-        message: "Code Executed",
-        backgroundColor: "black",
+        message: "Error",
+        backgroundColor: "red",
         textColor: "white",
         invertIcons: true,
       });
-
-      return;
-    }
-
-    updateButtonState(elements, {
-      message: "Error",
-      backgroundColor: "black",
-      textColor: "white",
-      invertIcons: true,
     });
   } catch (error) {
     console.error("Discord Auto Quest Error:", error);
 
     updateButtonState(elements, {
       message: "Error",
-      backgroundColor: "black",
+      backgroundColor: "red",
       textColor: "white",
       invertIcons: true,
     });

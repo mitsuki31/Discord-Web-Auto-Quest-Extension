@@ -36,14 +36,25 @@ export function createExpandedPanel(): void {
 
   const authorLink = createElement("a");
   authorLink.href = GH_REPO_URL;
-
   authorLink.target = "_blank";
   authorLink.rel = "noopener noreferrer";
   authorLink.style.cssText = "color: #fff; font-weight: bold; text-decoration: none;";
   authorLink.textContent = "6Together9";
 
+  const rewriteAuthorOuter = createElement("p", STYLES.credit);
+  rewriteAuthorOuter.append("Code rewritten by ");
+
+  const rewriteAuthor = createElement("a");
+  rewriteAuthor.href = "https://github.com/mitsuki31";
+  rewriteAuthor.target = "_blank";
+  rewriteAuthor.rel = "noopener noreferrer";
+  rewriteAuthor.style.cssText = "color: #fff; font-weight: bold; text-decoration: none;";
+  rewriteAuthor.textContent = "mitsuki31";
+
   credit.appendChild(authorLink);
+  rewriteAuthorOuter.appendChild(rewriteAuthor);
   panel.appendChild(credit);
+  panel.appendChild(rewriteAuthorOuter);
 
   document.body.appendChild(panel);
 }

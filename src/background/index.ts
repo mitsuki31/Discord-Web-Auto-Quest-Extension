@@ -4,18 +4,18 @@ chrome.runtime.onInstalled.addListener(() => {
   console.info("Discord Auto Quest extension installed");
 });
 
-chrome.runtime.onMessage.addListener(function (request, sender, sendResponse): void {
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   const manifest = chrome.runtime.getManifest();
 
   // :: getVersion
   if (request.action === "getVersion") {
     sendResponse({ version: manifest.version });
-    return;
+    return true;  // Success
   }
 
   // :: executeQuestCode
   if (request.action === "executeQuestCode") {
-    if (sender.tab && sender.tab.id) {
+    if (sender.tab?.id != null) {
       const tabId = sender.tab.id;
 
       chrome.scripting.executeScript({
@@ -44,6 +44,10 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse): v
     } else {
       console.error("No tab ID found:", sender);
       sendResponse({ success: false, error: "No tab ID found" });
+
+      return false;  // Error
     }
   }
+
+  return true;  // Success
 });
