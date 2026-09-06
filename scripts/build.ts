@@ -11,6 +11,11 @@ const IS_PROD = process.argv.slice(2).some(
   x => ["--prod", "--production"].includes(x)
 );
 
+const EXTERNAL_FILES = [
+  ["assets", path.join(ROOT_DIR, "assets")],
+  [".", PUBLIC_DIR],
+] as const;
+
 console.info(`[#] Build Mode: ${IS_PROD ? "production" : "development"}\n`);
 
 /** Build options for ESBuild */
@@ -72,11 +77,17 @@ async function prebuild(): Promise<void> {
 }
 
 async function postbuild(): Promise<void> {
-  await fs.cp(PUBLIC_DIR, DIST_DIR, {
-    recursive: true,
-    preserveTimestamps: true,
-  });
-  console.info("[esbuild:postbuild] :: Copied 'public' to 'dist' directory recursively");
+  for (const [base, source] of EXTERNAL_FILES) {
+    const outbase = path.join(DIST_DIR, base);
+    await fs.cp(source, outbase, {
+      recursive: true,
+      preserveTimestamps: true,
+    });
+
+    console.info(`[esbuild:postbuild] :: Copied '${
+      path.relative(ROOT_DIR, source)
+    }' to '${path.relative(ROOT_DIR, outbase)}' directory recursively`);
+  }
 }
 
 async function build(): Promise<void> {
