@@ -8,7 +8,8 @@
     "typecheck": "tsc --noEmit",
     "build": "npm run typecheck && tsx scripts/build.ts",
     "build:watch": "npm run typecheck && tsx --watch scripts/build.ts",
-    "build:prod": "npm run build -- --production"
+    "build:prod": "npm run build -- --production",
+    "package": "tsx scripts/create-zip.ts"
   },
   "repository": {
     "type": "git",
@@ -28,7 +29,9 @@
   "devDependencies": {
     "@types/chrome": "^0.2.8",
     "@types/node": "^26.4.1",
+    "@types/yazl": "^3.3.1",
     "tsx": "^4.23.13",
-    "typescript": "^7.0.2"
+    "typescript": "^7.0.2",
+    "yazl": "^3.3.1"
   }
 }
