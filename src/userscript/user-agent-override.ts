@@ -1,12 +1,10 @@
+import { ELECTRON_USER_AGENT } from "../constants";
+
 (function() {
-  'use strict';
-
-  const electronUserAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Discord/1.0.0 Chrome/120.0.0.0 Electron/28.0.0 Safari/537.36';
-
   try {
     Object.defineProperty(navigator, 'userAgent', {
       get: function() {
-        return electronUserAgent;
+        return ELECTRON_USER_AGENT;
       },
       configurable: true
     });
@@ -18,7 +16,7 @@
       configurable: true
     });
 
-    console.info('[Discord Auto Quest] User-Agent override active:', electronUserAgent);
+    console.info('[Discord Auto Quest] User-Agent override active:', ELECTRON_USER_AGENT);
   } catch (error) {
     console.error('[Discord Auto Quest] Failed to override user agent:', error);
   }
