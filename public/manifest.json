@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Discord Web Auto Quest Extension",
-  "version": "1.2.6",
-  "description": "Automatically complete Discord quests in the browser without any manual work",
+  "name": "Discord Web Auto Quest Extension (Rewrite)",
+  "version": "1.2.6.1",
+  "description": "Automatically complete Discord quests in the browser without any manual work. TypeScript migration by Ryuu Mitsuki.",
   "icons": {
     "16": "assets/icon.png",
     "48": "assets/icon.png",
