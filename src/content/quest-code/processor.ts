@@ -16,47 +16,31 @@ export function loadStores(webpackRequire: WebpackRequire): QuestStores | null {
   try {
     const questsStore = findModule<QuestScoreI>(
       webpackRequire, (value): value is QuestScoreI =>
-        typeof value === "object" &&
-        value !== null &&
-        "getQuest" in value,
+        (value as any)?.__proto__?.getQuest,
     );
 
     const channelStore = findModule<ChannelStore>(
       webpackRequire, (value): value is ChannelStore =>
-        typeof value === "object" &&
-        value !== null &&
-        "getSortedPrivateChannels" in value,
+        (value as any)?.__proto__?.getAllThreadsForParent,
     );
 
     const guildChannelStore = findModule<GuildChannelStore>(
       webpackRequire, (value): value is GuildChannelStore =>
-        typeof value === "object" &&
-        value !== null &&
-        "getAllGuilds" in value,
+        (value as any)?.getSFWDefaultChannel,
     );
 
     const apiModule = findModule<Record<string, unknown>>(
       webpackRequire, (value): value is Record<string, unknown> =>
-        typeof value === "object" &&
-        value !== null &&
-        ("Bo" in value || "tn" in value),
+        (value as any)?.Bo?.get || (value as any)?.tn?.get,
     );
 
     if (!questsStore || !apiModule) return null;
 
     const api = (
       apiModule.Bo
-        ?? apiModule.tn
-        ?? apiModule
+        || apiModule.tn
+        || apiModule
     ) as DiscordApi;
-
-    if (
-      typeof api !== "object"
-      || api === null
-      || typeof api.post !== "function"
-    ) {
-      return null;
-    }
 
     return {
       questsStore,
