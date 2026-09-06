@@ -6,9 +6,9 @@
   "private": true,
   "scripts": {
     "typecheck": "tsc --noEmit",
-    "build": "tsx scripts/build.ts",
-    "build:watch": "tsx scripts/build.ts --watch",
-    "build:prod": "tsx scripts/build.ts -- --production"
+    "build": "npm run typecheck && tsx scripts/build.ts",
+    "build:watch": "npm run typecheck && tsx --watch scripts/build.ts",
+    "build:prod": "npm run build -- --production"
   },
   "repository": {
     "type": "git",
