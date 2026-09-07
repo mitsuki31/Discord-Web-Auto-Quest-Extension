@@ -145,11 +145,11 @@ To use this extension on Android:
 > **April 25, 2026**  
 > Extension is now working normally. Thank you~ 💝
 
-> [!CAUTION]  
-> As of April 7, 2026, Discord has expressed their intent to crack down on automating quest completion.
+> [!CAUTION]
+> As of August 26, 2026, Discord has started suspending quest access of people caught automating quest completion.
 > Some users have received the following system message:
 > 
-> <img width="836" height="272" alt="image" src="https://i.postimg.cc/1XqDrjc1/quest.webp" />
+> <img width="1500" height="272" alt="image" src="https://i.imgur.com/XVvjcvD.png" />
 > 
 > Use the script at your own risk.
 
