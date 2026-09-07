@@ -14,3 +14,6 @@ insert_final_newline = false
 [*.{md,ts,js,json}]
 indent_size = 2
 insert_final_newline = true
+
+[*.{yml,yaml}]
+indent_size = 2
