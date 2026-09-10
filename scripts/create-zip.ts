@@ -11,6 +11,11 @@ const ROOT_DIR = path.resolve(__dirname, "..");
 const DIST_DIR = path.join(ROOT_DIR, "dist");
 const TMP_DIR = path.join(ROOT_DIR, "tmp");
 
+const EXTERNAL_FILES = [
+  "LICENSE",
+  "PRIVACY.md"
+] as const;
+
 async function getPackageVersion(): Promise<string> {
   const packageJsonPath = path.join(ROOT_DIR, "package.json");
   const packageJson = JSON.parse(await fs.readFile(packageJsonPath, "utf8"));
@@ -85,17 +90,42 @@ async function createProductionZip(): Promise<void> {
     await fs.mkdir(archiveDir, { recursive: true });
     console.info(`[create-zip] :: Created archive directory: ${relpath(archiveDir)}`);
 
-    // Copy files from dist/ to archive directory (excluding .map files)
+    const includedFiles: { source: string; dest: string }[] = [];
+
+    // Include files from dist/
     const distFiles = await fs.readdir(DIST_DIR);
+
     for (const file of distFiles) {
-      // Skip source map files
       if (file.endsWith(".map")) {
         console.info(`[create-zip] :: Skipping source map: '${file}'`);
         continue;
       }
 
-      const sourcePath = path.join(DIST_DIR, file);
-      const destPath = path.join(archiveDir, file);
+      // Skip previously generated ZIP file, if any
+      if (file === `${archiveName}.zip`) continue;
+
+      includedFiles.push({
+        source: path.join(DIST_DIR, file),
+        dest: path.join(archiveDir, file),
+      });
+    }
+
+    // Include external files
+    for (const file of new Set(EXTERNAL_FILES)) {
+      const source = path.resolve(file);
+
+      includedFiles.push({
+        source,
+        dest: path.join(
+          archiveDir,
+          path.relative(ROOT_DIR, source),
+        ),
+      });
+    }
+
+    for (const fileDict of includedFiles) {
+      const sourcePath = fileDict["source"];
+      const destPath = fileDict["dest"];
 
       const stats = await fs.stat(sourcePath);
       if (stats.isDirectory()) {
@@ -104,7 +134,7 @@ async function createProductionZip(): Promise<void> {
         await fs.copyFile(sourcePath, destPath);
       }
 
-      console.info(`[create-zip] :: Copied: '${file}'`);
+      console.info(`[create-zip] :: Copied: '${path.relative(ROOT_DIR, sourcePath)}'`);
     }
 
     // Create zip archive
