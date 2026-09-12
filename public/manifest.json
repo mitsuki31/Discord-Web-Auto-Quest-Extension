@@ -1,8 +1,10 @@
 {
+  "$schema": "https://json.schemastore.org/chrome-manifest.json",
   "manifest_version": 3,
-  "name": "Discord Web Auto Quest Extension (Rewrite)",
+  "name": "Discord Web Auto Quest (Reimagined)",
   "version": "1.2.6.1",
-  "description": "Automatically complete Discord quests in the browser without any manual work. TypeScript migration by Ryuu Mitsuki.",
+  "description": "A reimagined Discord web auto quest extension.",
+  "homepage_url": "https://github.com/mitsuki31/Discord-Web-Auto-Quest-Extension",
   "icons": {
     "16": "assets/icon.png",
     "48": "assets/icon.png",
