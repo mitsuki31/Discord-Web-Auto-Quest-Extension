@@ -68,10 +68,15 @@ The extension can be installed in two ways:
 > [!NOTE]  
 > This method requires Node.js v20+, make sure you've installed it.
 
-1. Clone or download this repository
-2. Run `npm install` to install dependencies
-3. Run `npm run build` to generate the extension in the `dist/` directory
-4. Load the `dist/` folder as an unpacked extension in Chrome/Edge
+1. Clone or download this repository.
+2. Navigate to the project directory and run `npm install` to install the required dependencies.
+3. Run `npm run build` to build the extension. The generated files will be placed in the `dist/` directory.
+4. Run `npm run package` to package the extension into a ZIP file. The ZIP file will be saved in the `dist/` directory.
+    - The generated file will be named `Discord-Auto-Quest-<VERSION>.zip`.
+5. Extract the generated ZIP file.
+6. Open your Chromium-based browser and navigate to the extensions page.
+7. Enable **"Developer mode"**.
+8. Select **"Load unpacked"** and choose the extracted extension folder.
 
 ## How to Use
 
