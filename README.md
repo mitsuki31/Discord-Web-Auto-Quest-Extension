@@ -1,16 +1,45 @@
 <img width=100% src="./assets/banner.png" alt="header"/> 
 
-# Discord Web Auto Quest Extension (Rewrite)
+# Discord Web Auto Quest Extension (Reimagined)
 
 <img align="right" src="./assets/icon.png" width=200 alt="Discord Auto Quest Extension logo">
 
-Extension that automatically completes Discord quests. No more manually watching videos or playing games - just click a button and let it run quests one by one automatically and work for all devices.
+Chromium extension that automatically completes Discord quests. No more manually watching videos or playing games — just click a button and let it run all selected quests at the same time automatically and work for all devices.
 
-This project is a complete rewrite of the codebase into TypeScript while maintaining the original behavior.
+<table>
+  <thead>
+    <tr>
+      <th colspan="3">PROJECT HISTORY</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Founder</strong></td>
+      <td><a href="https://github.com/aamiaa"><strong>aamiaa</strong></a> 🌸</td>
+      <td><a href="https://gist.github.com/aamiaa/204cd9d42013ded9faf646fae7f89fbb">Source (Gist)</a></td>
+    </tr>
+    <tr>
+      <td><strong>Previous Successor</strong></td>
+      <td><a href="https://github.com/nvckai"><strong>nvckai</strong></a></td>
+      <td><a href="https://github.com/nvckai/Discord-Web-Auto-Quest-Extension">Source (Repo)</a></td>
+    </tr>
+  </tbody>
+</table>
 
-Original Source from [**aamiaa**](https://gist.github.com/aamiaa/204cd9d42013ded9faf646fae7f89fbb)  🌸
+> [!WARNING]  
+> **USE THIS EXTENSION AT YOUR OWN RISK!**  
+> Before use this Chrome extension, please consider to [read the author notes](#author-notes--support-author) first.
 
-## What it does
+---
+
+## Reimagined Features
+
+- Entirely rewritten in TypeScript while preserving the original extension's core behavior
+- Quest processor now supports concurrent processing, allowing multiple quests to run simultaneously
+- Improved code logic, error handling, and overall processing reliability
+- Expanded and reorganized project structure to separate responsibilities and make future development easier
+
+## What It Does
 
 This extension hooks into Discord's quest system and automatically completes the requirements for all active quests sequentially. It works with:
 
@@ -23,32 +52,28 @@ The extension spoofs your user-agent to make Discord think you're using the desk
 
 ## Installation
 
-> [!NOTE]  
-> If you want a simple one, install it from [**Chrome Web Store**](https://chromewebstore.google.com/detail/discord-web-auto-quest-ex/dmldiapigcibgkdohbdhojhipgcgcmhl) instead.
->
-> It was published by the author themselves and the code are not optimized unlike this project.
-
 The extension can be installed in two ways:
 
 ### From GitHub Releases (Recommended)
 
-1. Download the latest release ZIP from the "Assets" section
+1. Download the latest release ZIP from the **"Assets"** section
+    - [**Go to the latest release**](https://github.com/mitsuki31/Discord-Web-Auto-Quest-Extension/releases/latest)
 2. Extract the ZIP file
-3. In Chrome/Edge, go to `chrome://extensions/`
-4. Enable "Developer mode"
-5. Click "Load unpacked" and select the extracted folder
+3. In your Chromium browser, go to `chrome://extensions/`
+4. Enable **"Developer mode"**
+5. Click **"Load unpacked"** and select the extracted folder
 
 ### From Source
 
 > [!NOTE]  
-> This method requires Node.js and npm, make sure you've installed it.
+> This method requires Node.js v20+, make sure you've installed it.
 
 1. Clone or download this repository
 2. Run `npm install` to install dependencies
 3. Run `npm run build` to generate the extension in the `dist/` directory
 4. Load the `dist/` folder as an unpacked extension in Chrome/Edge
 
-## How to use
+## How to Use
 
 1. Go to <https://discord.com/quest-home> in your browser
     - If redirected to Discord app, use this link instead: <https://discord.com/channels/@me>
@@ -58,7 +83,7 @@ The extension can be installed in two ways:
 4. Click it and check the progress quests
 5. Expand the panel to see the details (running quests and credits)
 
-The extension will automatically detect all your active quests and start completing them one by one.
+The extension will automatically detect all your active quests and start processing them simultaneously.
 
 ## Requirements
 
@@ -66,7 +91,7 @@ The extension will automatically detect all your active quests and start complet
 - A Discord account with quests available
 - Accepted quests on the `quest-home` page
 
-## How it works
+## How It Works
 
 The extension uses advanced techniques:
 
@@ -114,8 +139,8 @@ To use this extension on Android:
 
 ### User-Agent warnings
 
-- The console might show warnings about user-agent detection - this is normal
-- The extension uses multiple methods to override it, so it should still work
+- The console might show warnings about user-agent detection, this is normal
+- The extension uses multiple methods to override it, so it should still working
 
 ## Technical Details
 
@@ -139,14 +164,15 @@ To use this extension on Android:
 ## Author Notes & Support Author
 
 > [!NOTE]  
-> Join Discord ID Server Support: https://discord.gg/HbZEEuj4KJ
+> Join Discord ID Server: <https://discord.gg/HbZEEuj4KJ>
 
 > [!IMPORTANT]  
 > **April 25, 2026**  
 > Extension is now working normally. Thank you~ 💝
 
-> [!CAUTION]
-> As of August 26, 2026, Discord has started suspending quest access of people caught automating quest completion.
+> [!CAUTION]  
+> **August 26, 2026**  
+> Discord has started suspending quest access of people caught automating quest completion.
 > Some users have received the following system message:
 > 
 > <img width="1500" height="272" alt="image" src="https://i.imgur.com/XVvjcvD.png" />
@@ -155,9 +181,22 @@ To use this extension on Android:
 
 ---
 
-> [!WARNING]
+## About This Project
+
+**Discord Web Auto Quest Extension (Reimagined)** is a heavily modified continuation of the original [**Discord Web Auto Quest Extension**](https://github.com/nvckai/Discord-Web-Auto-Quest-Extension).
+
+The project was originally created by [**nvckai**](https://github.com/nvckai) and released under
+the [GNU General Public License v3.0](./LICENSE).
+
+This version has been substantially rewritten and reworked,
+including a TypeScript migration, concurrent quest processing,
+improved error handling, and a reorganized project structure.
+
+The original copyright and license notices are retained where
+applicable.
+
+> [!WARNING]  
 > This is a tool for automating Discord quests. Use at your own risk and be aware of Discord's Terms of Service. I'm not responsible if your account gets flagged or banned.
 
-> [!IMPORTANT]
+> [!IMPORTANT]  
 > This repository is strictly for educational purposes and security research only. It is designed to demonstrate how web APIs and user-agent spoofing work in a browser environment. Any misuse of this tool is the sole responsibility of the user. The author does not condone any actions that violate third-party Terms of Service.
-
