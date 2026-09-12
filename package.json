@@ -1,7 +1,7 @@
 {
-  "name": "discord-web-auto-quest-extension",
-  "version": "1.2.6+ts.2",
-  "description": "A Chrome extension that automatically completes all Discord Quests",
+  "name": "discord-web-auto-quest-reimagined",
+  "version": "1.3.0",
+  "description": "A reimagined Discord web auto quest extension.",
   "type": "module",
   "private": true,
   "scripts": {
@@ -22,9 +22,9 @@
   ],
   "license": "GPL-3.0-only",
   "bugs": {
-    "url": "https://github.com/nvckai/Discord-Web-Auto-Quest-Extension"
+    "url": "https://github.com/mitsuki31/Discord-Web-Auto-Quest-Extension"
   },
-  "homepage": "https://chromewebstore.google.com/detail/discord-web-auto-quest-ex/dmldiapigcibgkdohbdhojhipgcgcmhl",
+  "homepage": "https://github.com/mitsuki31/Discord-Web-Auto-Quest-Extension#readme",
   "keywords": [],
   "devDependencies": {
     "@types/chrome": "^0.2.8",
