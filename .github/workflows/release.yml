@@ -18,38 +18,31 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: '24'
           cache: 'npm'
 
       - name: Install dependencies
         run: npm ci
 
       - name: Build extension (production)
-        run: npm run build:prod
+        run: bash .github/scripts/build.sh --minify
 
-      - name: Bundling the extension (production)
-        run: npm run package
-
-      - name: Post bundling the extension (production)
+      - name: Post build extension (production)
         run: |
-          zip_file="$(ls dist/Discord-Auto-Quest-v*.zip)"
-          new_zip_file="release/$(basename "${zip_file%.zip}.min.zip")"
+          zip_files="$(ls dist/Discord-Auto-Quest-v*.zip)"
 
-          mkdir -p release
-          mv "$zip_file" "$new_zip_file" --verbose
+          mkdir -p release/
+          mv "$zip_files" release/ --verbose
           ls -la release/Discord-Auto-Quest-v*.zip
 
       - name: Build extension
-        run: npm run build
-  
-      - name: Bundling the extension
-        run: npm run package
+        run: bash .github/scripts/build.sh
 
       - name: Post bundling the extension
         run: |
-          zip_file="$(ls dist/Discord-Auto-Quest-v*.zip)"
+          zip_files="$(ls dist/Discord-Auto-Quest-v*.zip)"
 
-          mv "$zip_file" release/ --verbose
+          mv "$zip_files" release/ --verbose
           ls -la release/Discord-Auto-Quest-v*.zip
 
       - name: Upload release asset
