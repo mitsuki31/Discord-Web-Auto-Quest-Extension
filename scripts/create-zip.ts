@@ -72,6 +72,14 @@ async function createProductionZip(): Promise<void> {
   try {
     console.info("[create-zip] :: Starting production zip creation...");
 
+    // CLI flags
+    const args = process.argv.slice(2);
+    const FLAT = args.some((x) => x === "--flat");
+
+    if (FLAT) {
+      console.info("[create-zip] :: Flat mode: zip contents will be archived at root (no base directory)");
+    }
+
     // Get version from package.json
     const version = await getPackageVersion();
     console.info(`[create-zip] :: Version: ${version}`);
@@ -140,7 +148,8 @@ async function createProductionZip(): Promise<void> {
     // Create zip archive
     console.info(`[create-zip] :: Creating zip archive: ${relpath(distZipPath)}`);
     console.info("[create-zip] :: Zipping ---------------------- BEGIN");
-    await createArchive(archiveDir, distZipPath, path.dirname(archiveDir));
+    const baseDir = FLAT ? archiveDir : path.dirname(archiveDir);
+    await createArchive(archiveDir, distZipPath, baseDir);
     console.info("[create-zip] :: Zipping ---------------------- DONE");
 
     // Clean up temporary directory
