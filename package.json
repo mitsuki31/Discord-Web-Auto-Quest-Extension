@@ -9,7 +9,7 @@
     "build": "npm run typecheck && tsx scripts/build.ts",
     "build:watch": "npm run typecheck && tsx --watch scripts/build.ts",
     "build:prod": "npm run build -- --production",
-    "package": "tsx scripts/create-zip.ts"
+    "package": "tsx scripts/create-zip.ts --flat"
   },
   "repository": {
     "type": "git",
