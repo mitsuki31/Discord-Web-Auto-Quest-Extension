@@ -6,9 +6,15 @@
   "private": true,
   "scripts": {
     "typecheck": "tsc --noEmit",
+    "typecheck:watch": "tsc --noEmit --watch",
     "build": "npm run typecheck && tsx scripts/build.ts",
     "build:watch": "npm run typecheck && tsx --watch scripts/build.ts",
-    "build:prod": "npm run build -- --production",
+    "build:manifest": "tsx scripts/build-manifest.ts",
+    "build:chrome": "npm run build && npm run build:manifest -- --use chrome",
+    "build:firefox": "npm run build && npm run build:manifest -- --use firefox",
+    "build:prod": "npm run typecheck && tsx scripts/build.ts --production && npm run build:manifest",
+    "build:chrome:prod": "npm run typecheck && tsx scripts/build.ts --production && npm run build:manifest -- --minify --use chrome",
+    "build:firefox:prod": "npm run typecheck && tsx scripts/build.ts --production && npm run build:manifest -- --minify --use firefox",
     "package": "tsx scripts/create-zip.ts --flat"
   },
   "repository": {
