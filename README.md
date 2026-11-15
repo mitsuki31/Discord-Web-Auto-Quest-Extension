@@ -50,33 +50,86 @@ This extension hooks into Discord's quest system and automatically completes the
 
 The extension spoofs your user-agent to make Discord think you're using the desktop app, which is required for some quest types to work properly. It processes quests sequentially to ensure stability and proper completion, handling each quest's requirements one at a time.
 
+## Supported Browsers
+
+| Browser | Browser Engine | Supported Edition | Tested |
+| ------------- | -------------- | ----------------- | :----: |
+| Google Chrome | Chromium | All editions | ✅ |
+| Microsoft Edge | Chromium | All editions | ❌ |
+| Zen Browser | Firefox | Stable | ✅ |
+| ~~Mozilla Firefox~~ | ~~Firefox~~ | ~~Stable~~ | ❌ |
+| Mozilla Firefox | Firefox | Beta | ❌ |
+| Mozilla Firefox | Firefox | Developer Edition | ❌ |
+| Mozilla Firefox | Firefox | Nightly | ❌ |
+| Mozilla Firefox | Firefox | ESR | ❌ |
+
+> [!IMPORTANT]
+> **Zen Browser and Firefox users:** If you're installing an unsigned extension, you may need to disable extension signature verification first.
+>
+> 1. Open `about:config` in your browser.
+> 2. Search for `xpinstall.signatures.required`.
+> 3. If your browser supports changing this preference, set it to `false`.
+> 4. Restart your browser if necessary.
+>
+> **Note:** This setting cannot be used to disable signature enforcement in standard Firefox Stable and Beta releases. Extensions must be signed by Mozilla in these editions. You can use temporary installation through `about:debugging` for development and testing.
+
 ## Installation
 
 The extension can be installed in two ways:
 
 ### From GitHub Releases (Recommended)
 
-1. Download the latest release ZIP from the **"Assets"** section
-    - [**Go to the latest release**](https://github.com/mitsuki31/Discord-Web-Auto-Quest-Extension/releases/latest)
-2. Extract the ZIP file
-3. In your Chromium browser, go to `chrome://extensions/`
-4. Enable **"Developer mode"**
-5. Click **"Load unpacked"** and select the extracted folder
+1. Download the appropriate ZIP archive from the **Assets** section.
+   - [**Go to the latest release**](https://github.com/mitsuki31/Discord-Web-Auto-Quest-Extension/releases/latest)
+
+#### For Chromium-based Browsers
+
+1. Download the ZIP archive with the `-chrome` suffix.
+2. Extract the downloaded ZIP archive.
+3. Open your Chromium-based browser and navigate to `chrome://extensions/`.
+4. Enable **Developer mode**.
+5. Click **Load unpacked** and select the extracted extension folder.
+
+#### For Firefox-based Browsers
+
+1. Download the ZIP archive with the `-firefox` suffix.
+2. Open Firefox and navigate to `about:addons`.
+3. Click the gear icon to open the settings menu, then select **Install Add-on From File...**.
+4. Select the downloaded ZIP archive.
 
 ### From Source
 
-> [!NOTE]  
-> This method requires Node.js v20+, make sure you've installed it.
+> [!NOTE]
+> This method requires Node.js v20 or later. However, the recommended Node.js version is specified in the `.nvmrc` file. Make sure you have the appropriate version installed.
 
 1. Clone or download this repository.
 2. Navigate to the project directory and run `npm install` to install the required dependencies.
-3. Run `npm run build` to build the extension. The generated files will be placed in the `dist/` directory.
-4. Run `npm run package` to package the extension into a ZIP file. The ZIP file will be saved in the `dist/` directory.
-    - The generated file will be named `Discord-Auto-Quest-<VERSION>.zip`.
-5. Extract the generated ZIP file.
-6. Open your Chromium-based browser and navigate to the extensions page.
-7. Enable **"Developer mode"**.
-8. Select **"Load unpacked"** and choose the extracted extension folder.
+3. Choose the appropriate commands for your browser:
+
+   - **Chromium** (Chrome, Edge, Brave, etc.):
+     ```bash
+     npm run build:chrome && npm run package
+     ```
+
+   - **Firefox** (Mozilla Firefox, Zen Browser, etc.):
+     ```bash
+     npm run build:firefox && npm run package:flat
+     ```
+
+The generated ZIP archive will be saved in the `dist/` directory.
+
+#### Next Steps for Chromium-based Browsers
+
+4. Extract the generated ZIP archive.
+5. Open your Chromium-based browser and navigate to `chrome://extensions/`.
+6. Enable **Developer mode**.
+7. Click **Load unpacked** and select the extracted extension folder.
+
+#### Next Steps for Firefox-based Browsers
+
+4. Open Firefox and navigate to `about:addons`.
+5. Click the gear icon to open the settings menu, then select **Install Add-on From File...**.
+6. Select the generated ZIP archive.
 
 ## How to Use
 
@@ -92,7 +145,7 @@ The extension will automatically detect all your active quests and start process
 
 ## Requirements
 
-- Chrome or any Chromium-based browser (Edge, Brave, etc.)
+- Chromium-based browser or Firefox-based browser
 - A Discord account with quests available
 - Accepted quests on the `quest-home` page
 
