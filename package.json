@@ -15,7 +15,8 @@
     "build:prod": "npm run typecheck && tsx scripts/build.ts --production && npm run build:manifest",
     "build:chrome:prod": "npm run typecheck && tsx scripts/build.ts --production && npm run build:manifest -- --minify --use chrome",
     "build:firefox:prod": "npm run typecheck && tsx scripts/build.ts --production && npm run build:manifest -- --minify --use firefox",
-    "package": "tsx scripts/create-zip.ts --flat"
+    "package": "tsx scripts/create-zip.ts",
+    "package:flat": "tsx scripts/create-zip.ts --flat"
   },
   "repository": {
     "type": "git",
