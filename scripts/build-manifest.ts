@@ -26,7 +26,8 @@ const RM_DEFAULT = [
 ] as const;
 
 const RM_CHROME_FIELDS = [
-  "background.scripts"
+  "background.scripts",
+  "browser_specific_settings"
 ] as const;
 
 const RM_FIREFOX_FIELDS = [

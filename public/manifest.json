@@ -7,6 +7,15 @@
   "manifest_version": 3,
   "name": "{name}",
   "version": "{version}",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "@discord-auto-quest-reimagined",
+      "strict_min_version": "142.0",
+      "data_collection_permissions": {
+        "required": ["none"]
+      }
+    }
+  },
   // Do not remove this field below, Firefox will ignore this even not supported
   "version_name": "{version} Reimagined",
   "description": "{description}",
