@@ -42,7 +42,7 @@ jobs:
             exit 1
           fi
 
-          mv -- "${zip_files[@]}" release/ --verbose
+          mv "${zip_files[@]}" release/ --verbose
 
           ls -la release/Discord-Auto-Quest-v*.zip
 
