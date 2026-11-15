@@ -1,9 +1,16 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import pkgJson from '../package.json' with { type: 'json' };
 
 
 type ManifestType = "chrome" | "firefox";
+type ManifestPlaceholders = {
+  name: string;
+  version: `${number}.${number}.${number}`;
+  description: string;
+  homepage_url: string;
+};
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -13,6 +20,7 @@ const MANIFEST_FILE = path.join(ROOT_DIR, 'public', 'manifest.json');
 const DIST_DIR = path.join(ROOT_DIR, 'dist');
 const DIST_MANIFEST = path.join(DIST_DIR, 'manifest.json');
 
+// Field names in this list will always be dropped
 const RM_DEFAULT = [
   "$schema"
 ] as const;
@@ -56,6 +64,21 @@ function parseArgs(args: NodeJS.Process["argv"]): ParsedArgs {
     minify: args.some(v => ['-m', '--minify'].includes(v))
   } satisfies ParsedArgs
 }
+
+
+// Manifest Placeholders
+const PLACHOLDER_REGEX = /\{([A-Za-z_0-9]+)\}/;
+const PLACHOLDER_REGEX_G = new RegExp(PLACHOLDER_REGEX.source, 'g');
+
+const MANIFEST_PLACEHOLDERS: Readonly<ManifestPlaceholders> = {
+  name: 'Discord Web Auto Quest (Reimagined)',
+  version: pkgJson.version as ManifestPlaceholders["version"],
+  description: pkgJson.description,
+  homepage_url: ((): string => {
+    const u = new URL(pkgJson.homepage);
+    return u.origin + u.pathname;
+  })()
+};
 
 
 function stripJsonComments(content: string): string {
@@ -184,6 +207,39 @@ function removeField<T extends Record<string, unknown>>(
   return obj;
 }
 
+function parseManifest<T extends Record<string, unknown>>(obj: T): T {
+  const newObj = structuredClone(obj) as Record<string, unknown>;
+
+  for (const [key, value] of Object.entries(newObj)) {
+    if (typeof value === 'string') {
+      if (!PLACHOLDER_REGEX_G.test(value)) continue;
+
+      newObj[key] = value.replace(
+        PLACHOLDER_REGEX_G,
+        (match, key) => (
+          MANIFEST_PLACEHOLDERS[key as keyof ManifestPlaceholders]
+            ?? match
+        )
+      ) as T[Extract<keyof T, string>];
+    } else if (Array.isArray(value)) {
+      newObj[key] = value.map((item) => (
+        typeof item === 'object' && item !== null
+          ? parseManifest(item as Record<string, unknown>)
+          : typeof item === 'string'
+            ? parseManifest({ value: item }).value
+            : item
+        )
+      ) as T[Extract<keyof T, string>];
+    } else if (typeof value === 'object' && value !== null) {
+      newObj[key] = parseManifest(
+        value as Record<string, unknown>
+      ) as T[Extract<keyof T, string>];
+    }
+  }
+
+  return newObj as T;
+}
+
 
 
 function build() {
@@ -201,6 +257,9 @@ function build() {
     newManifest = removeField(newManifest, field);
   }
 
+  // Parse the manifest, replacing any placeholder
+  newManifest = parseManifest(newManifest);
+
   fs.mkdirSync(DIST_DIR, { recursive: true });
   fs.writeFileSync(
     DIST_MANIFEST,
@@ -212,4 +271,3 @@ function build() {
 }
 
 build();
-

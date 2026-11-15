@@ -1,35 +1,61 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
 
-minify=
+set -Eeuo pipefail
+
+minify=0
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
         -m|--minify)
             minify=1
             echo "[build.sh] Using --minify option"
-        ;;
-        *) echo "Unknown argument: $1" >&2 ;;
+            ;;
+        *)
+            echo "[build.sh] Unknown argument: $1" >&2
+            exit 1
+            ;;
     esac
     shift
 done
 
+# Prepare temporary directory
+rm -rf tmp
+mkdir -p tmp
+
+shopt -s nullglob
+
 for browser in chrome firefox; do
-    suffix="$browser.zip"
+    build_cmd="build:$browser"
+    package_cmd="package"
+    suffix="$browser"
+
+    if (( minify )); then
+        build_cmd="build:$browser:prod"
+        [[ "$browser" != chrome ]] && package_cmd="package:flat"
+        suffix="$browser.min"
+    fi
 
     echo "[build.sh] Building the extension for '$browser' browser..."
 
-    if (( minify )); then
-        npm run build:$browser:prod
-        suffix="$browser.min.zip"
-    else
-        npm run build:$browser
+    [[ -d dist/ ]] && rm -f dist/Discord-Auto-Quest-v*.zip
+    npm run "$build_cmd"
+    npm run "$package_cmd"
+
+    # Find generated ZIP
+    zip_files=(dist/Discord-Auto-Quest-v*.zip)
+
+    if (( ${#zip_files[@]} != 1 )); then
+        echo "[build.sh] Expected exactly one ZIP file, found ${#zip_files[@]}" >&2
+        exit 1
     fi
-    npm run package
 
-    mkdir -p tmp
+    zip_file="${zip_files[0]}"
+    filename="$(basename "$zip_file" .zip)"
 
-    zip_file="$(ls dist/Discord-Auto-Quest-v*.zip)"
-    mv "$zip_file" "tmp/$(basename "$zip_file" .zip)-$suffix" --verbose
+    mv --verbose -- "$zip_file" "tmp/$filename-$suffix.zip"
 done
 
-mv tmp/Discord-Auto-Quest-*.zip dist/ --verbose
+# Move final artifacts into dist
+mv --verbose -- tmp/*.zip dist/
+
+echo "[build.sh] Build completed successfully!"

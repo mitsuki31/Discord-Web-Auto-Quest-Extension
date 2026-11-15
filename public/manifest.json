@@ -5,12 +5,12 @@
 {
   "$schema": "https://json.schemastore.org/chrome-manifest.json",
   "manifest_version": 3,
-  "name": "Discord Web Auto Quest (Reimagined)",
-  "version": "1.3.0",
+  "name": "{name}",
+  "version": "{version}",
   // Do not remove this field below, Firefox will ignore this even not supported
-  "version_name": "1.3.0 Reimagined",
-  "description": "A reimagined Discord web auto quest extension.",
-  "homepage_url": "https://github.com/mitsuki31/Discord-Web-Auto-Quest-Extension",
+  "version_name": "{version} Reimagined",
+  "description": "{description}",
+  "homepage_url": "{homepage_url}",
   "icons": {
     "16": "assets/icon.png",
     "48": "assets/icon.png",
