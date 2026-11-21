@@ -1,34 +1,34 @@
-import { createQuestButton } from "./button";
-import { watchRouteChanges } from "./route-watcher";
+import { createQuestButton, destroyQuestButton } from "./button";
+import { getQuestControls } from "./dom";
 import { handleWindowMessage } from "./messages";
-import { setExpandButtonRef } from "./state";
+import { isQuestHome } from "./navigation";
+import { destroyPanel, initPanel } from "./panel";
+import { stopWatchingRouteChanges, watchRouteChanges } from "./route-watcher";
+import { injectStyles, removeStyles } from "./styles";
 
 let isInitialized = false;
-let routeObserver: MutationObserver | null = null;
 
-// We need our own removeElements that also clears the expandButtonReference
 export function removeElements(): void {
-  const button = document.getElementById("DiscordQuestButton");
-  if (button) button.remove();
-
-  const panel = document.getElementById("DiscordQuestPanel");
-  if (panel) panel.remove();
-
-  setExpandButtonRef(null);
-  routeObserver?.disconnect();
-  routeObserver = null;
+  destroyPanel();
+  destroyQuestButton();
+  getQuestControls()?.remove();
 }
 
 export function init(): void {
   if (isInitialized) return;
-
   isInitialized = true;
-
+  injectStyles();
   createQuestButton();
+  if (isQuestHome()) initPanel();
   watchRouteChanges();
   window.addEventListener("message", handleWindowMessage);
 }
 
 export function dispose(): void {
+  if (!isInitialized) return;
   removeElements();
+  stopWatchingRouteChanges();
+  window.removeEventListener("message", handleWindowMessage);
+  removeStyles();
+  isInitialized = false;
 }

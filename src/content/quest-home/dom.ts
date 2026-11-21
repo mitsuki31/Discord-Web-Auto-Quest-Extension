@@ -1,17 +1,27 @@
 import { ELEMENT_IDS } from "./constants";
 
+export function getQuestControls(): HTMLDivElement | null {
+  const element = document.getElementById(ELEMENT_IDS.controls);
+
+  return element instanceof HTMLDivElement ? element : null;
+}
+
 export function getQuestButton(): HTMLButtonElement | null {
   const element = document.getElementById(ELEMENT_IDS.button);
 
-  return element instanceof HTMLButtonElement
-    ? element
-    : null;
+  return element instanceof HTMLButtonElement ? element : null;
 }
 
-export function getQuestPanel(): HTMLDivElement | null {
+export function getExpandButton(): HTMLButtonElement | null {
+  const element = document.getElementById(ELEMENT_IDS.expandButton);
+
+  return element instanceof HTMLButtonElement ? element : null;
+}
+
+export function getQuestPanel(): HTMLElement | null {
   const element = document.getElementById(ELEMENT_IDS.panel);
 
-  return element instanceof HTMLDivElement
+  return element instanceof HTMLElement
     ? element
     : null;
 }

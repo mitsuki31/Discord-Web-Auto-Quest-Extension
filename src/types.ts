@@ -119,16 +119,16 @@ export type SupportedQuestMessage =
 
 export interface ButtonElements {
   button: HTMLButtonElement;
-  icon: HTMLImageElement;
+  icon: HTMLSpanElement;
   textLabel: HTMLSpanElement;
   expandButton: HTMLButtonElement;
 }
 
+export type ButtonMode = "idle" | "loading" | "success" | "error";
+
 export interface ButtonState {
+  mode: ButtonMode;
   message: string;
-  backgroundColor: string;
-  textColor: string;
-  invertIcons?: boolean;
 }
 
 export interface QuestListItem {
@@ -137,14 +137,18 @@ export interface QuestListItem {
   progress: number;
   target: number;
   completed: boolean;
+  taskType?: string;
 }
 
-export interface QuestUpdateMessage {
+export type QuestBadgeType = "video" | "play" | "stream" | "activity" | "unknown";
+
+export interface QuestUpdateData {
   id: string;
   name: string;
   progress: number;
   target: number;
   completed: boolean;
+  taskType?: string;
 }
 
 export interface QuestMessage {
@@ -160,5 +164,5 @@ export interface QuestListMessage extends QuestMessage {
 
 export interface QuestUpdateMessage extends QuestMessage {
   type: "QUEST_UPDATE";
-  data: QuestUpdateMessage;
+  data: QuestUpdateData;
 }
