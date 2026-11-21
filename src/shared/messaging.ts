@@ -1,4 +1,4 @@
-import type { QuestI } from "../types";
+import type { QuestI, TaskType } from "../types";
 
 export function sendUpdate(
   type: "QUEST_LIST" | "QUEST_UPDATE",
@@ -16,6 +16,7 @@ export function sendUpdate(
 
 export function notifyUI(
   quest: QuestI,
+  taskType: TaskType,
   progress: number,
   target: number,
   completed: boolean,
@@ -23,6 +24,7 @@ export function notifyUI(
   sendUpdate("QUEST_UPDATE", {
     id: quest.id,
     name: quest.config.messages.questName,
+    taskType,
     progress,
     target,
     completed,

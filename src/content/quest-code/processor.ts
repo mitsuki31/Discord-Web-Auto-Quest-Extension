@@ -82,6 +82,7 @@ export async function processVideoStep(
 
     notifyUI(
       quest,
+      state.taskType,
       Math.floor(state.currentProgress),
       secondsNeeded,
       completed,
@@ -97,7 +98,7 @@ export async function processVideoStep(
       body: { timestamp: secondsNeeded },
     });
 
-    notifyUI(quest, secondsNeeded, secondsNeeded, true);
+    notifyUI(quest, state.taskType, secondsNeeded, secondsNeeded, true);
     return true;
   } catch (error) {
     console.error(
@@ -143,6 +144,7 @@ export async function processHeartbeatStep(
 
     notifyUI(
       quest,
+      taskType,
       Math.floor(state.currentProgress),
       secondsNeeded,
       completed,
@@ -163,6 +165,7 @@ export async function processHeartbeatStep(
 
     notifyUI(
       quest,
+      taskType,
       secondsNeeded,
       secondsNeeded,
       true,
