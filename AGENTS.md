@@ -30,7 +30,8 @@ src/
 │   │   ├── quest.ts      # Quest list item UI updates
 │   │   ├── state.ts      # In-memory quest state cache
 │   │   ├── dom.ts        # DOM helpers
-│   │   ├── constants.ts  # Element IDs, styles
+│   │   ├── constants.ts  # Element and stylesheet IDs
+│   │   ├── styles.ts     # Runtime-injected, prefixed UI stylesheet
 │   │   └── navigation.ts # URL checks
 │   └── quest-code/       # Injected into MAIN world (quest-code.js)
 │       ├── runner.ts     # Entry point, parallel quest orchestration
@@ -69,7 +70,7 @@ src/
 5. **Finds Discord internal modules** (`QuestsStore`, `ChannelStore`, `GuildChannelStore`, API module)
 6. **Filters active, uncompleted, supported quests** → initializes `QuestStateI[]`
 7. **Runs all quests in parallel** via `Promise.all` → each quest loops calling API until complete
-8. **Progress updates sent via `window.postMessage`** → received by `quest-home.js` → updates UI panel
+8. **Progress updates (including task type) sent via `window.postMessage`** → received by `quest-home.js` → updates UI panel
 
 ## Development Commands
 
@@ -126,6 +127,7 @@ Iterate `webpackRequire.c`, check exports at `A`, `Ay`, `ZP`, root, apply type g
 - **Heartbeat** (play/stream): POST `/quests/{id}/heartbeat` with `stream_key`, poll server progress
 - **Retry**: Up to `QUEST_MAX_ATTEMPTS` (100) with `QUEST_CHECK_INTERVAL` (100ms) delay
 - **Parallel**: `Promise.all` over all active quests
+- **Progress target**: `QuestStateI.secondsNeeded` comes from `taskData.target` and is both the processor's completion target and the panel's progress denominator. It is not a reliable video-runtime or completion-time estimate; do not change it merely to alter presentation.
 
 ### User-Agent Spoofing (`src/userscript/user-agent-override.ts`)
 Runs at `document_start` in MAIN world. `Object.defineProperty` on `navigator.userAgent` and `navigator.platform` → Electron-like UA string.
@@ -172,8 +174,9 @@ Since the manifest file is a merged version of Chromium Manifest V3 and Firefox 
 
 ### Modify UI
 - Button/panel: `src/content/quest-home/button.ts`, `panel.ts`
-- Styles: `src/content/quest-home/constants.ts` (STYLES object)
+- Styles: `src/content/quest-home/styles.ts` (single runtime-injected stylesheet)
 - Quest list rendering: `src/content/quest-home/quest.ts`
+- The panel is non-modal: keep its two native sibling controls independent, preserve Escape/outside-pointer cleanup, and do not add a focus trap.
 
 ## CI/CD
 
