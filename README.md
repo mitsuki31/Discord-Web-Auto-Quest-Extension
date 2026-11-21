@@ -38,6 +38,7 @@ Chromium extension that automatically completes Discord quests. No more manually
 - Quest processor now supports concurrent processing, allowing multiple quests to run simultaneously
 - Improved code logic, error handling, and overall processing reliability
 - Expanded and reorganized project structure to separate responsibilities and make future development easier
+- Floating controls with an expandable quest panel, live progress, quest-type badges, and author credits
 
 ## What It Does
 
@@ -48,7 +49,7 @@ This extension hooks into Discord's quest system and automatically completes the
 - Desktop streaming (`STREAM_ON_DESKTOP`)
 - Activity playing (`PLAY_ACTIVITY`)
 
-The extension spoofs your user-agent to make Discord think you're using the desktop app, which is required for some quest types to work properly. It processes quests sequentially to ensure stability and proper completion, handling each quest's requirements one at a time.
+The extension spoofs your user-agent to make Discord think you're using the desktop app, which is required for some quest types to work properly. It processes supported active quests concurrently.
 
 ## Supported Browsers
 
@@ -137,11 +138,15 @@ The generated ZIP archive will be saved in the `dist/` directory.
     - If redirected to Discord app, use this link instead: <https://discord.com/channels/@me>
     - After that, go to **Quests**
 2. Accept some quests if you haven't already
-3. Look for the **"Run Quests"** button in the bottom right corner with an icon
-4. Click it and check the progress quests
-5. Expand the panel to see the details (running quests and credits)
+3. Look for the **"Run Quests"** button in the bottom-right corner
+4. Click **Run Quests** to start automation
+5. Use the adjacent chevron button to open the quest panel and view quest progress and credits
 
 The extension will automatically detect all your active quests and start processing them simultaneously.
+
+### Understanding panel progress
+
+The panel shows progress reported by Discord's quest configuration and APIs. For video quests, a value such as `0s / 112s` is Discord's required quest-progress target, **not** the video's runtime or an estimate of how long the video itself takes to watch. Discord may update this progress with a delay (so don't worry if it looks stuck), and a stalled value means the extension has not received newer quest progress from Discord.
 
 ## Requirements
 
@@ -155,7 +160,7 @@ The extension uses advanced techniques:
 
 - **User-Agent override**: Modifies HTTP headers and navigator properties to mimic Discord desktop
 - **Webpack module injection**: Hooks into Discord's internal stores (`QuestsStore`, `RunningGameStore`, etc.)
-- **Sequest processing**: Handles quests sequentially to ensure stability, completing each quest's requirements before moving to the next
+- **Quest processing**: Runs supported active quests concurrently and reports their progress to the panel
 - **API spoofing**: Intercepts quest progress updates and sends fake data
 - **Smart detection**: Filters quests by expiration and completion status
 
@@ -186,11 +191,12 @@ To use this extension on Android:
 
 - Make sure you're on `discord.com/quest-home`
 - Refresh the page
-- Check that the extension is enabled in `chrome://extensions/`
+- Check that the extension is enabled in `chrome://extensions/` (Chromium) or `about:addons` (Firefox)
 
 ### Quest not completing
 
-- Open the console (F12) and check for error messages
+- Open the Developer Tools (<kbd>F12</kbd> or <kbd>Ctrl + Shift + I</kbd>)
+- Go to Console and check for the error messages
 - Make sure you've accepted the quests first
 - Some quest types work better in the actual Discord desktop app
 - Try refreshing and running the code again
@@ -205,7 +211,7 @@ To use this extension on Android:
 - **Manifest Version**: V3
 - **Build Tool**: ESBuild with TypeScript support
 - **Bundling**: All source files bundled into single IIFE modules
-- **Target Browser**: Chrome 120+ (manifest target)
+- **Target Browser**: Chromium 120+ and/or Firefox 142.0+
 - **File Size**: Optimized production builds with no source maps (&lt;500kB)
 
 ## Development Scripts
@@ -219,7 +225,7 @@ To use this extension on Android:
 
 ---
 
-## Author Notes & Support Author
+## Previous Author Notes & Support
 
 > [!NOTE]  
 > Join Discord ID Server: <https://discord.gg/HbZEEuj4KJ>
