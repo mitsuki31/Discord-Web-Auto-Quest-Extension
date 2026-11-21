@@ -1,4 +1,18 @@
-export const GH_REPO_URL = "https://github.com/nvckai/Discord-Web-Auto-Quest-Extension";
+export const GH_REPO_URL = "https://github.com/mitsuki31/Discord-Web-Auto-Quest-Extension";
+export const GH_REPO_ORIGIN_URL = "https://github.com/nvckai/Discord-Web-Auto-Quest-Extension";
+
+export const DWAQ_AUTHORS = [
+  // 0 => Original author
+  {
+    name: "nvckai",
+    url: "https://github.com/nvckai/"
+  },
+  // 1 => Successor
+  {
+    name: "mitsuki31",
+    url: "https://github.com/mitsuki31/"
+  }
+] as const;
 
 /** Electron User-Agent */
 export const ELECTRON_USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Discord/1.0.0 Chrome/120.0.0.0 Electron/28.0.0 Safari/537.36';

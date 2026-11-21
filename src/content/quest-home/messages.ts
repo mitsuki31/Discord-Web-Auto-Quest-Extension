@@ -1,31 +1,23 @@
-import { getQuestListContainer } from "./dom";
-import { questStateCache } from "./state";
+import { questState } from "./state";
 import type { SupportedQuestMessage } from "../../types";
-import { updateQuestListUI, updateQuestItemUI } from "./quest";
 
 export function handleQuestMessage(
   message: SupportedQuestMessage,
 ): void {
-  const listContainer = getQuestListContainer();
-
   switch (message.type) {
     case "QUEST_LIST": {
-      questStateCache.clear();
-
-      for (const quest of message.data) {
-        questStateCache.set(quest.id, quest);
-      }
-
-      if (listContainer) updateQuestListUI();
+      questState.replaceQuests(message.data);
       break;
     }
 
     case "QUEST_UPDATE": {
-      questStateCache.set(message.data.id, message.data);
-
-      if (listContainer) {
-        updateQuestItemUI(listContainer, message.data);
-      }
+      const existing = questState.getState().quests.get(message.data.id);
+      const nextQuest = {
+        ...message.data,
+      };
+      const taskType = message.data.taskType ?? existing?.taskType;
+      if (taskType !== undefined) nextQuest.taskType = taskType;
+      questState.upsertQuest(nextQuest);
       break;
     }
   }

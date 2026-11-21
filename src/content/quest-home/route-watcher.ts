@@ -1,4 +1,6 @@
 import { createQuestButton } from "./button";
+import { isQuestHome } from "./navigation";
+import { initPanel } from "./panel";
 
 let previousUrl = window.location.href;
 let routeObserver: MutationObserver | null = null;
@@ -25,6 +27,12 @@ export function watchRouteChanges(): void {
   }
 }
 
+export function stopWatchingRouteChanges(): void {
+  routeObserver?.disconnect();
+  routeObserver = null;
+}
+
 export function handleRouteChange(): void {
   createQuestButton();
+  if (isQuestHome()) initPanel();
 }

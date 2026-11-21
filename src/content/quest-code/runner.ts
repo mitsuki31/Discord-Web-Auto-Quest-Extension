@@ -121,6 +121,7 @@ export async function runQuestCode(webpackRequire: WebpackRequire): Promise<void
     questStates.map(state => ({
       id: state.quest.id,
       name: state.questName,
+      taskType: state.taskType,
       progress: Math.floor(state.currentProgress),
       target: state.secondsNeeded,
       completed: state.completed,
